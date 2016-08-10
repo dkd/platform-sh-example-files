@@ -1,0 +1,28 @@
+name: myrubyapp
+type: "ruby:2.3"
+
+web:
+    commands:
+       start: "unicorn -l $SOCKET -E production config.ru"
+
+    locations:
+        "/":
+            root: "public"
+            passthru: true
+            expires: 1h
+            allow: true
+
+relationships:
+    database: "database:mysql"
+
+disk: 2048
+
+hooks:
+  build: |
+    gem install bundler
+    bundle install --jobs 6 --without development test
+  deploy: RACK_ENV=production bundle exec rake db:migrate
+
+mounts:
+   "/log": "shared:files/log"
+   "/tmp": "shared:files/tmp"
