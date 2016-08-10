@@ -24,7 +24,7 @@ production:
   adapter: mysql2
   encoding: utf8
   reconnect: false
-  database: main
+  database: <%=PlatformSH::config["relationships"]["database"][0]["path"]%>
   pool: 5
-  username: user
-  host: database.internal
+  username: <%=PlatformSH::config["relationships"]["database"][0]["username"]%>
+  host: <%=PlatformSH::config["relationships"]["database"][0]["host"]%>
