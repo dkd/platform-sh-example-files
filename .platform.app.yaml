@@ -32,16 +32,21 @@ relationships:
 mounts:
    "/log": "shared:files/log"
    "/tmp": "shared:files/tmp"
+   "/texlive": "shared:files/texlive"
 
 # The size of the persistent disk of the application (in MB).
-disk: 2048
+disk: 8000
 
 # The hooks executed at various points in the lifecycle of the application.
 hooks:
     # The build hook runs before the application is deployed, and is useful for
     # assembling the codebase.
     build: |
-        gem install bundler
-        bundle install --jobs 6 --without development test
-    # We run deploy hook after your application has been deployed and started.
-    deploy: RACK_ENV=production bundle exec rake db:migrate
+      gem install bundler
+      bundle install --jobs 6 --without development test
+    deploy: |
+      cd texlive
+      touch profile
+      [ ! -f install-tl ] && wget -nq -O tl.tar.gz http://mirror.ctan.org/systems/texlive/tlnet/install-tl-unx.tar.gz && tar -xzf tl.tar.gz --strip-components=1 && rm tl.tar.gz
+      TEXLIVE_INSTALL_PREFIX=. ./install-tl --profile profile --persistent-downloads
+      RACK_ENV=production bundle exec rake db:migrate
