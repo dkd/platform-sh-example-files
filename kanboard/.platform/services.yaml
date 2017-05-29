@@ -1,0 +1,4 @@
+# define mysql database service
+kanboarddb:
+  type: mysql:10.0
+  disk: 1024

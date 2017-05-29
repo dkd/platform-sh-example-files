@@ -1,0 +1,43 @@
+{
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/kanboard/kanboard"
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "fguillot/plugin-gantt",
+        "version": "1.0.1",
+        "type": "kanboard-plugin",
+        "dist": {
+          "url": "https://github.com/kanboard/plugin-gantt/zipball/v1.0.1/",
+          "type": "zip"
+        },
+        "require": {
+          "fguillot/kanboard": ">=1.0.43"
+        }
+      }
+    },
+    {
+      "type": "package",
+      "package": {
+        "name": "fguillot/plugin-calender",
+        "version": "1.0.0",
+        "type": "kanboard-plugin",
+        "dist": {
+          "url": "https://github.com/kanboard/plugin-calendar/zipball/v1.0.0/",
+          "type": "zip"
+        },
+        "require": {
+          "fguillot/kanboard": ">=1.0.42"
+        }
+      }
+    }
+  ],
+  "require": {
+    "fguillot/kanboard": "1.0.43",
+    "fguillot/plugin-gantt": "1.0.1",
+    "fguillot/plugin-calender": "1.0.0"
+  }
+}

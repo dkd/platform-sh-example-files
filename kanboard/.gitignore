@@ -1,0 +1,4 @@
+
+# ignore composer vendor folder
+/vendor
+/.platform/local/

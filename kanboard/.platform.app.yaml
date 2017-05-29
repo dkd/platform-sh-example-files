@@ -1,0 +1,71 @@
+# Requirements for kanboard
+# php version: 7.x
+# php extension
+# - pdo_mysql
+# - gd
+# - mbstring
+# - openssl
+# - json
+# - hash
+# - ctype
+# - session
+# - Zend OPcache
+
+# The name of this application, which must be unique within a project.
+name: 'kanboard'
+
+# The type key specifies the language and version for your application.
+type: 'php:7.0'
+
+# On PHP, there are multiple build flavors available. Pretty much everyone
+# except Drupal 7 users will want the composer flavor.
+build:
+  flavor: 'composer'
+
+# The relationships of the application with services or other applications.
+# The left-hand side is the name of the relationship as it will be exposed
+# to the application in the PLATFORM_RELATIONSHIPS variable. The right-hand
+# side is in the form `<service name>:<endpoint name>`.
+relationships:
+  database: 'kanboarddb:mysql'
+
+# The configuration of the application when it is exposed to the web.
+web:
+  locations:
+    '/':
+      # The public directory of the application relative to its root.
+      root: 'vendor/fguillot/kanboard'
+      # The front-controller script which determines where to send
+      # non-static requests.
+      passthru: '/index.php'
+
+# The size of the persistent disk of the application (in MB).
+disk: 2048
+
+# The mounts that will be performed when the package is deployed.
+mounts:
+  "vendor/fguillot/kanboard/data": "shared:files/data"
+
+# The hooks that will be performed when the package is deployed.
+#
+# Build:
+# 1. Copy own config.php file into the application folder.
+# 2. Create a symlink for the vendor folder and link two levels up into the "global" vendor folder to allow access to
+# dependencies from within the application. In a "normal" installation the vendor folder would be stored
+# in the kanboard directory.
+#
+# Deploy:
+# 1. Manually trigger the doctrine db migrations.
+hooks:
+  build: |
+    echo "Copy own configuration file to kanboard"
+    cp config/kanboard/config.php vendor/fguillot/kanboard/config.php
+    echo "Symlink root vendor folder into kanboard"
+    ln -s ../../../vendor vendor/fguillot/kanboard/vendor
+    echo "Symlink kanboard plugins"
+    ln -s ../../../../vendor/fguillot/plugin-gantt vendor/fguillot/kanboard/plugins/Gantt
+    ln -s ../../../../vendor/fguillot/plugin-calender vendor/fguillot/kanboard/plugins/Calendar
+
+  deploy: |
+    echo "Execute kanboard database migrations via cli"
+    ./vendor/fguillot/kanboard/cli db:migrate

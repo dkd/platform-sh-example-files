@@ -1,0 +1,10 @@
+"https://{default}/":
+    type: upstream
+    # the first part should be your project name
+    upstream: "kanboard:http"
+    cache:
+      enabled: true
+
+"http://{default}/":
+    type: redirect
+    to: "https://{default}/"
