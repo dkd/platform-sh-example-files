@@ -1,0 +1,4 @@
+[submodule "typo3"]
+	path = typo3
+	url = https://github.com/platformsh/platformsh-example-typo3.git
+	branch = master
