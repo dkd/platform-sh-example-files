@@ -2,3 +2,6 @@
 	path = typo3
 	url = https://github.com/platformsh/platformsh-example-typo3.git
 	branch = master
+[submodule "ghostblog"]
+	path = ghostblog
+	url = https://github.com/dkd/ghost-platformsh-example.git
